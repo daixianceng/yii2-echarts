@@ -1,0 +1,28 @@
+{
+    "name": "daixianceng/yii2-echarts",
+    "description": "Echarts widget for Yii2.",
+    "keywords": ["yii2", "extension", "chart", "echarts"],
+    "homepage": "https://github.com/daixianceng/yii2-echarts",
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Cosmo",
+            "email": "daixianceng@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/daixianceng/yii2-echarts/issues",
+        "source": "https://github.com/daixianceng/yii2-echarts"
+    },
+    "require": {
+        "yiisoft/yii2": "*",
+        "bower-asset/echarts": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "daixianceng\\echarts\\": "src/"
+        }
+    }
+}
