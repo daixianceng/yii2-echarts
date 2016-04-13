@@ -17,22 +17,35 @@ use yii\helpers\Json;
  */
 class ECharts extends Widget
 {
+    const DIST_FULL = 'full';
+    const DIST_COMMON = 'common';
+    const DIST_SIMPLE = 'simple';
+
+    /**
+     * @var string the dist of echarts to be used. The possible options are:
+     * - "full" : A full dist of echarts.
+     * - "common" : A common dist of echarts.
+     * - "simple" : A simple dist of echarts.
+     * Defaults to "common", means a common dist of echarts will be used.
+     */
+    public static $dist = 'common';
+
     /**
      * @var boolean whether resize the chart when the container size is changed.
      */
     public $responsive = false;
-    
+
     /**
      * @var array the HTML attributes for the widget container tag.
      */
     public $options = [];
-    
+
     /**
      * @var array the options for the echarts plugin.
      * See [its documentation](http://echarts.baidu.com/option.html) for details.
      */
     public $pluginOptions = [];
-    
+
     /**
      * Initializes the widget.
      */
@@ -43,7 +56,7 @@ class ECharts extends Widget
             $this->options['id'] = $this->getId();
         }
     }
-    
+
     /**
      * Renders the widget.
      */
@@ -52,7 +65,7 @@ class ECharts extends Widget
         echo Html::tag('div', '', $this->options);
         $this->registerClientScript();
     }
-    
+
     /**
      * Registers the required js files and script to initialize echarts plugin
      */
