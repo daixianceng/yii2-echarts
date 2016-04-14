@@ -12,7 +12,7 @@ use yii\helpers\Json;
 
 /**
  * ECharts widget
- * 
+ *
  * @author Cosmo <daixianceng@gmail.com>
  */
 class ECharts extends Widget
@@ -42,7 +42,7 @@ class ECharts extends Widget
 
     /**
      * @var array the options for the echarts plugin.
-     * See [its documentation](http://echarts.baidu.com/option.html) for details.
+     * See [its documentation](http://echarts.baidu.com/option.html) or [api](http://echarts.baidu.com/api.html) for details.
      */
     public $pluginOptions = [];
 
@@ -73,13 +73,16 @@ class ECharts extends Widget
     {
         $id = $this->options['id'];
         $view = $this->getView();
-        $options = !empty($this->pluginOptions) ? Json::encode($this->pluginOptions) : '{}';
-        
+        $option = !empty($this->pluginOptions['option']) ? Json::encode($this->pluginOptions['option']) : '{}';
+
         EChartsAsset::register($view);
-    
-        $js = "var echarts_{$id} = echarts.init(document.getElementById('{$id}'));echarts_{$id}.setOption({$options});";
+
+        $js = "var echarts_{$id} = echarts.init(document.getElementById('{$id}'));echarts_{$id}.setOption({$option});";
+        if (isset($this->pluginOptions['group'])) {
+            $js .= "echarts_{$id}.group = '" . addcslashes($this->pluginOptions['group'], "'") . "';";
+        }
         if ($this->responsive) {
-            $js .= "$(window).resize(function () {echarts_{$id}.resize()})";
+            $js .= "$(window).resize(function () {echarts_{$id}.resize()});";
         }
         $view->registerJs($js);
     }
