@@ -47,6 +47,11 @@ class ECharts extends Widget
     public $pluginOptions = [];
 
     /**
+     * @var array the attached event handlers for the echarts plugin (event name => handlers)
+     */
+    public $pluginEvents = [];
+
+    /**
      * Initializes the widget.
      */
     public function init()
@@ -79,11 +84,28 @@ class ECharts extends Widget
 
         $js = "var echarts_{$id} = echarts.init(document.getElementById('{$id}'));echarts_{$id}.setOption({$option});";
         if (isset($this->pluginOptions['group'])) {
-            $js .= "echarts_{$id}.group = '" . addcslashes($this->pluginOptions['group'], "'") . "';";
+            $js .= "echarts_{$id}.group = " . $this->quote($this->pluginOptions['group']) . ";";
         }
         if ($this->responsive) {
             $js .= "$(window).resize(function () {echarts_{$id}.resize()});";
         }
+        foreach ($this->pluginEvents as $name => $handlers) {
+            $handlers = (array) $handlers;
+            foreach ($handlers as $handler) {
+                $js .= "echarts_{$id}.on(" . $this->quote($name) . ", $handler);";
+            }
+        }
         $view->registerJs($js);
+    }
+
+    /**
+     * Quotes a string for use in JavaScript
+     *
+     * @param string $string
+     * @return string the quoted string
+     */
+    private function quote($string)
+    {
+        return "'" . addcslashes($string, "'") . "'";
     }
 }
