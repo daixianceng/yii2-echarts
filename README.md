@@ -30,11 +30,13 @@ Usage
 -----
 
 ```php
+<?php
 use yii\web\JsExpression;
 use daixianceng\echarts\ECharts;
 
 // 使用全版本的echarts，默认 "ECharts::DIST_COMMON"
 ECharts::$dist = ECharts::DIST_FULL;
+?>
 
 <?= ECharts::widget([
     'responsive' => true,
