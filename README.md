@@ -117,3 +117,8 @@ ECharts::$dist = ECharts::DIST_FULL;
     ]
 ]); ?>
 ```
+
+License
+-----
+
+**yii2-echarts** is released under the BSD-3-Clause License. See the bundled `LICENSE` for details.
