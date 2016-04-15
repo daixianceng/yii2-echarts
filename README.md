@@ -1,5 +1,7 @@
 yii2-echarts
 ============
+[![Latest Stable Version](https://poser.pugx.org/daixianceng/yii2-echarts/v/stable)](https://packagist.org/packages/daixianceng/yii2-echarts) [![Total Downloads](https://poser.pugx.org/daixianceng/yii2-echarts/downloads)](https://packagist.org/packages/daixianceng/yii2-echarts) [![Latest Unstable Version](https://poser.pugx.org/daixianceng/yii2-echarts/v/unstable)](https://packagist.org/packages/daixianceng/yii2-echarts) [![License](https://poser.pugx.org/daixianceng/yii2-echarts/license)](https://packagist.org/packages/daixianceng/yii2-echarts)
+
 ECharts widget for Yii2.
 
 See [echarts project](https://github.com/ecomfe/echarts) for details.
