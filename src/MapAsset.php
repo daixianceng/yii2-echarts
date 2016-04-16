@@ -9,13 +9,13 @@ namespace daixianceng\echarts;
 use yii\web\AssetBundle;
 
 /**
- * ECharts theme asset
+ * Map asset
  *
  * @author Cosmo <daixianceng@gmail.com>
  */
-class EChartsThemeAsset extends AssetBundle
+class MapAsset extends AssetBundle
 {
-    public $sourcePath = '@bower/echarts/theme';
+    public $sourcePath = '@bower/echarts/map';
 
     public $depends = [
         'daixianceng\echarts\EChartsAsset',
