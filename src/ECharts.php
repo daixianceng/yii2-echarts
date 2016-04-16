@@ -14,12 +14,29 @@ use yii\helpers\Json;
  * ECharts widget
  *
  * @author Cosmo <daixianceng@gmail.com>
+ * @property string $clientId
  */
 class ECharts extends Widget
 {
     const DIST_FULL = 'full';
     const DIST_COMMON = 'common';
     const DIST_SIMPLE = 'simple';
+
+    /**
+     * @var string the client ID of the echarts.
+     * @see getClientId()
+     */
+    private $_clientId;
+
+    /**
+     * @var array list of the theme JS files.
+     */
+    protected static $_themeJsFiles = [];
+
+    /**
+     * @var array list of the map JS files.
+     */
+    protected static $_mapJsFiles = [];
 
     /**
      * @var string the dist of echarts to be used. The possible options are:
@@ -34,6 +51,11 @@ class ECharts extends Widget
      * @var boolean whether resize the chart when the container size is changed.
      */
     public $responsive = false;
+
+    /**
+     * @var string the theme name to be used for styling the chart.
+     */
+    public $theme;
 
     /**
      * @var array the HTML attributes for the widget container tag.
@@ -72,7 +94,7 @@ class ECharts extends Widget
     }
 
     /**
-     * Registers the required js files and script to initialize echarts plugin
+     * Registers the required js files and script to initialize echarts plugin.
      */
     protected function registerClientScript()
     {
@@ -80,26 +102,38 @@ class ECharts extends Widget
         $view = $this->getView();
         $option = !empty($this->pluginOptions['option']) ? Json::encode($this->pluginOptions['option']) : '{}';
 
-        EChartsAsset::register($view);
-
-        $js = "var echarts_{$id} = echarts.init(document.getElementById('{$id}'));echarts_{$id}.setOption({$option});";
+        if ($this->theme) {
+            static::registerTheme($this->theme);
+            $js = "var {$this->clientId} = echarts.init(document.getElementById('{$id}'), " . $this->quote($this->theme) . ");";
+        } else {
+            $js = "var {$this->clientId} = echarts.init(document.getElementById('{$id}'));";
+        }
+        $js .= "{$this->clientId}.setOption({$option});";
         if (isset($this->pluginOptions['group'])) {
-            $js .= "echarts_{$id}.group = " . $this->quote($this->pluginOptions['group']) . ";";
+            $js .= "{$this->clientId}.group = " . $this->quote($this->pluginOptions['group']) . ";";
         }
         if ($this->responsive) {
-            $js .= "$(window).resize(function () {echarts_{$id}.resize()});";
+            $js .= "$(window).resize(function () {{$this->clientId}.resize()});";
         }
         foreach ($this->pluginEvents as $name => $handlers) {
             $handlers = (array) $handlers;
             foreach ($handlers as $handler) {
-                $js .= "echarts_{$id}.on(" . $this->quote($name) . ", $handler);";
+                $js .= "{$this->clientId}.on(" . $this->quote($name) . ", $handler);";
             }
+        }
+
+        EChartsAsset::register($view);
+        if (static::$_themeJsFiles) {
+            ThemeAsset::register($view)->js = static::$_themeJsFiles;
+        }
+        if (static::$_mapJsFiles) {
+            MapAsset::register($view)->js = static::$_mapJsFiles;
         }
         $view->registerJs($js);
     }
 
     /**
-     * Quotes a string for use in JavaScript
+     * Quotes a string for use in JavaScript.
      *
      * @param string $string
      * @return string the quoted string
@@ -107,5 +141,49 @@ class ECharts extends Widget
     private function quote($string)
     {
         return "'" . addcslashes($string, "'") . "'";
+    }
+
+    /**
+     * Returns the client ID of the echarts.
+     *
+     * @return string
+     */
+    public function getClientId()
+    {
+        $id = $this->options['id'];
+
+        if ($this->_clientId === null) {
+            $this->_clientId = "echarts_{$id}";
+        }
+
+        return $this->_clientId;
+    }
+
+    /**
+     * Registers the JS files of the given themes.
+     *
+     * @param string|array $theme
+     */
+    public static function registerTheme($theme)
+    {
+        $themes = (array) $theme;
+        array_walk($themes, function (&$name) {
+            $name .= '.js';
+        });
+        static::$_themeJsFiles = array_unique(array_merge(static::$_themeJsFiles, $themes));
+    }
+
+    /**
+     * Registers the JS files of the given maps.
+     *
+     * @param string|array $map
+     */
+    public static function registerMap($map)
+    {
+        $maps = (array) $map;
+        array_walk($maps, function (&$name) {
+            $name = 'js/' . $name . '.js';
+        });
+        static::$_mapJsFiles = array_unique(array_merge(static::$_mapJsFiles, $maps));
     }
 }
