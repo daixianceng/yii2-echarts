@@ -160,6 +160,9 @@ ECharts::registerMap(['china', 'province/beijing']);
                     'name' => 'China map',
                     'type' => 'map',
                     'map' => 'china',
+                    'data' => [
+                        ['name' => '广东', 'selected' => true]
+                    ]
                 ]
             ]
         ]
