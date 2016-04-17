@@ -6,6 +6,7 @@
  */
 namespace daixianceng\echarts;
 
+use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Json;
@@ -44,7 +45,7 @@ class ECharts extends Widget
      * - "common" : A common dist of echarts.
      * - "simple" : A simple dist of echarts.
      * Defaults to "common", means a common dist of echarts will be used.
-     * 
+     *
      * Note that if you are using maps in echarts, you must set it a full dist.
      */
     public static $dist = self::DIST_COMMON;
@@ -105,7 +106,6 @@ class ECharts extends Widget
         $option = !empty($this->pluginOptions['option']) ? Json::encode($this->pluginOptions['option']) : '{}';
 
         if ($this->theme) {
-            static::registerTheme($this->theme);
             $js = "var {$this->clientId} = echarts.init(document.getElementById('{$id}'), " . $this->quote($this->theme) . ");";
         } else {
             $js = "var {$this->clientId} = echarts.init(document.getElementById('{$id}'));";
@@ -125,12 +125,6 @@ class ECharts extends Widget
         }
 
         EChartsAsset::register($view);
-        if (static::$_themeJsFiles) {
-            ThemeAsset::register($view)->js = static::$_themeJsFiles;
-        }
-        if (static::$_mapJsFiles) {
-            MapAsset::register($view)->js = static::$_mapJsFiles;
-        }
         $view->registerJs($js);
     }
 
@@ -173,6 +167,9 @@ class ECharts extends Widget
             $name .= '.js';
         });
         static::$_themeJsFiles = array_unique(array_merge(static::$_themeJsFiles, $themes));
+        if (static::$_themeJsFiles) {
+            ThemeAsset::register(Yii::$app->getView())->js = static::$_themeJsFiles;
+        }
     }
 
     /**
@@ -187,5 +184,8 @@ class ECharts extends Widget
             $name = 'js/' . $name . '.js';
         });
         static::$_mapJsFiles = array_unique(array_merge(static::$_mapJsFiles, $maps));
+        if (static::$_mapJsFiles) {
+            MapAsset::register(Yii::$app->getView())->js = static::$_mapJsFiles;
+        }
     }
 }
