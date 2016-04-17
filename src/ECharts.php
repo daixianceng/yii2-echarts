@@ -44,8 +44,10 @@ class ECharts extends Widget
      * - "common" : A common dist of echarts.
      * - "simple" : A simple dist of echarts.
      * Defaults to "common", means a common dist of echarts will be used.
+     * 
+     * Note that if you are using maps in echarts, you must set it a full dist.
      */
-    public static $dist = 'common';
+    public static $dist = self::DIST_COMMON;
 
     /**
      * @var boolean whether resize the chart when the container size is changed.
