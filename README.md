@@ -4,10 +4,9 @@ yii2-echarts
 
 ECharts widget for Yii2.
 
-See [echarts project](https://github.com/ecomfe/echarts) for details.
+See the [echarts project](https://github.com/ecomfe/echarts) for details.
 
-Installation
-------------
+## Installation
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
@@ -26,16 +25,14 @@ or add
 to the require section of your `composer.json` file.
 
 
-Usage
------
+## Usage
+
+### Example
 
 ```php
 <?php
 use yii\web\JsExpression;
 use daixianceng\echarts\ECharts;
-
-// 使用全版本的echarts，默认 "ECharts::DIST_COMMON"
-ECharts::$dist = ECharts::DIST_FULL;
 ?>
 
 <?= ECharts::widget([
@@ -118,7 +115,92 @@ ECharts::$dist = ECharts::DIST_FULL;
 ]); ?>
 ```
 
-License
------
+### Using themes
+
+```php
+<?php
+use daixianceng\echarts\ECharts;
+
+// Registers the theme JS files.
+ECharts::registerTheme('dark');
+?>
+
+<?= ECharts::widget([
+    'theme' => 'dark',
+    'responsive' => true,
+    'options' => [
+        'style' => 'height: 400px;'
+    ],
+    'pluginOptions' => [
+        'option' => []
+    ]
+]); ?>
+```
+
+### Using maps
+
+```php
+<?php
+use daixianceng\echarts\ECharts;
+
+// 引用地图必须使用完整版的echarts
+ECharts::$dist = ECharts::DIST_FULL;
+ECharts::registerMap(['china', 'province/beijing']);
+?>
+
+<?= ECharts::widget([
+    'responsive' => true,
+    'options' => [
+        'style' => 'height: 400px;'
+    ],
+    'pluginOptions' => [
+        'option' => [
+            'series' => [
+                [
+                    'name' => 'China map',
+                    'type' => 'map',
+                    'map' => 'china',
+                ]
+            ]
+        ]
+    ]
+]); ?>
+
+<?= ECharts::widget([
+    'responsive' => true,
+    'options' => [
+        'style' => 'height: 400px;'
+    ],
+    'pluginOptions' => [
+        'option' => [
+            'geo' => [
+                'map' => '北京'
+            ]
+        ]
+    ]
+]); ?>
+```
+
+### Configure CDN
+
+```php
+<?php
+return [
+    'components' => [
+        'assetManager' => [
+            'class' => 'yii\web\AssetManager',
+            'bundles' => [
+                'daixianceng\echarts\EChartsAsset' => [
+                    'sourcePath' => null,
+                    'baseUrl' => '//cdn.bootcss.com/echarts/3.0.0'
+                ]
+            ],
+        ],
+    ],
+];
+?>
+```
+
+## License
 
 **yii2-echarts** is released under the BSD-3-Clause License. See the bundled `LICENSE` for details.
