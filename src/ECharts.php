@@ -146,9 +146,8 @@ class ECharts extends Widget
      */
     public function getClientId()
     {
-        $id = $this->options['id'];
-
         if ($this->_clientId === null) {
+            $id = $this->options['id'];
             $this->_clientId = "echarts_{$id}";
         }
 
