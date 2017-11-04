@@ -51,6 +51,11 @@ class ECharts extends Widget
     public static $dist = self::DIST_COMMON;
 
     /**
+     * @var array the extensions of echarts.
+     */
+    public static $extensions = [];
+
+    /**
      * @var boolean whether resize the chart when the container size is changed.
      */
     public $responsive = false;

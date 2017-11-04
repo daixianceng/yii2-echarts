@@ -40,6 +40,11 @@ class EChartsAsset extends AssetBundle
                 default:
                     throw new InvalidConfigException('The "dist" is not valid.');
             }
+
+            // Registers echarts extensions
+            foreach (ECharts::$extensions as $extension) {
+                $this->js[] = YII_DEBUG ? "extension/{$extension}.js" : "extension/{$extension}.min.js";
+            }
         }
 
         parent::init();
