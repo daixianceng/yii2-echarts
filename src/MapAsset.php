@@ -15,7 +15,7 @@ use yii\web\AssetBundle;
  */
 class MapAsset extends AssetBundle
 {
-    public $sourcePath = '@bower/echarts/map';
+    public $sourcePath = '@npm/echarts/map';
 
     public $depends = [
         'daixianceng\echarts\EChartsAsset',
