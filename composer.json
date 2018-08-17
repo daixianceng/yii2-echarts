@@ -18,7 +18,7 @@
     },
     "require": {
         "yiisoft/yii2": "*",
-        "bower-asset/echarts": "*"
+        "npm-asset/echarts": "*"
     },
     "autoload": {
         "psr-4": {
