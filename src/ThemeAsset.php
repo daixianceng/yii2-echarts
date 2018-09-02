@@ -15,7 +15,7 @@ use yii\web\AssetBundle;
  */
 class ThemeAsset extends AssetBundle
 {
-    public $sourcePath = '@bower/echarts/theme';
+    public $sourcePath = '@npm/echarts/theme';
 
     public $depends = [
         'daixianceng\echarts\EChartsAsset',

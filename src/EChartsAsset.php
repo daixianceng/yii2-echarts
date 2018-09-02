@@ -19,7 +19,7 @@ class EChartsAsset extends AssetBundle
     /**
      * @inheritdoc
      */
-    public $sourcePath = '@bower/echarts/dist';
+    public $sourcePath = '@npm/echarts/dist';
 
     /**
      * Initializes the bundle.
