@@ -195,7 +195,7 @@ return [
             'bundles' => [
                 'daixianceng\echarts\EChartsAsset' => [
                     'sourcePath' => null,
-                    'baseUrl' => '//cdn.bootcss.com/echarts/3.0.0'
+                    'baseUrl' => 'https://cdn.jsdelivr.net/npm/echarts@4.7.0/dist'
                 ]
             ],
         ],
